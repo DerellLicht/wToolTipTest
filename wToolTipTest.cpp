@@ -1,15 +1,14 @@
 //**********************************************************************
-//  Copyright (c) 2009-2018  Daniel D Miller
-//  wShowFont.exe - Viewer for raster font files
+//  Copyright (c) 2018  Daniel D Miller
 //  
 //  Written by:   Daniel D. Miller
 //**********************************************************************
-//  version		changes
-//	 =======		======================================
+//  version    changes
+//  =======    ======================================
 //    1.00     original, derived from wFontList
 //****************************************************************************
 
-static char const * const Version = "wShowFont, Version 1.00" ;
+static char const * const Version = "wToolTipDemo, Version 1.01" ;
 
 #define WINVER 0x0501
 #define _WIN32_WINNT 0x0501
@@ -154,6 +153,7 @@ static bool do_init_dialog(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
    wsprintfA(msgstr, "%s", Version) ;
    SetWindowTextA(hwnd, msgstr) ;
 
+   //  Add program icons to title bar
    SetClassLongA(hwnd, GCL_HICON,   (LONG) LoadIcon(GetModuleHandle(NULL), (LPCSTR) LCDTICO));
    SetClassLongA(hwnd, GCL_HICONSM, (LONG) LoadIcon(GetModuleHandle(NULL), (LPCSTR) LCDTICO));
 
@@ -219,6 +219,7 @@ static bool do_init_dialog(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
    hwndClearAttr = GetDlgItem(hwnd, IDC_SHOW_CLEAR) ;
    hwndBgndAttr  = GetDlgItem(hwnd, IDC_SHOW_BGND) ;
 
+   //  set up the tooltips
    HWND hToolTip = create_tooltips(hwnd, 150, 100, 10000) ;
    add_program_tooltips(hwnd, hToolTip) ;
    return true ;
