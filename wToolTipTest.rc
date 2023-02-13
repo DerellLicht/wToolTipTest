@@ -1,14 +1,24 @@
+//****************************************************************************
+//  Copyright (c) 2018-2023  Daniel D Miller
+//****************************************************************************
+//  Notes on tooltips for static controls:
+//  
+//  > SS_NOTIFY and "Static" controls  (LTEXT and CTEXT)
+//    If SS_NOTIFY is not specified in the control styles,
+//    you cannot attach tooltips to the control.
+//****************************************************************************
+
+//lint -e2    Unclosed Quote
+//lint -e46   field type should be _Bool, unsigned int or signed int
+//lint -e132  Expected function definition
+//lint -e101  Expected an identifier
+//lint -e129  declaration expected, identifier 'LTEXT' ignored - this was in my .RC file
+//lint -e793  ANSI/ISO limit of 31 'significant characters in an external identifier'
+
 #include <windows.h>
 #include "resource.h"
 
 LCDTICO       ICON    "font.ico"
-
-//*******************************************************************
-//  main program dialog
-//*******************************************************************
-#define  PI_X	215
-#define  PI_Y	  4
-#define  PI_FX	(PI_X + 5)
 
 //*********************************************************************************************************
 //  wShowFont dialog definition
@@ -35,7 +45,7 @@ BEGIN
    //  Command field controls
    //********************************************************
    LTEXT           "Font name:", IDS_FONTNAME,    7,  7,  36, 10,SS_NOTIFY
-   LTEXT           " ",          IDC_FONTNAME,   47,  7,  60, 10,SS_SUNKEN
+   LTEXT           " ",          IDC_FONTNAME,   47,  7,  60, 10,SS_SUNKEN | SS_NOTIFY
    PUSHBUTTON      "Change Font",IDB_LOAD_FONT,  47, 22,  60, 13
 
    //********************************************************
@@ -51,12 +61,12 @@ BEGIN
    // GROUPBOX        " Dimens ",    IDC_STATIC,     350,  1,  65, 50
    GROUPBOX        " Dimens ",    IDC_STATIC,     170,  1,  65, 50
    LTEXT           "Pixel Diam:", IDS_PIXDIAM,    175, 11,  37, 10,SS_NOTIFY
-   LTEXT           " ",           IDC_PIXDIAM,    210, 10,  20, 10,SS_SUNKEN
+   LTEXT           " ",           IDC_PIXDIAM,    210, 10,  20, 10,SS_SUNKEN | SS_NOTIFY
    LTEXT           "Bit gap:",    IDS_BITGAP,     175, 24,  37, 10,SS_NOTIFY
-   LTEXT           " ",           IDC_BITGAP,     210, 23,  20, 10,SS_SUNKEN
+   LTEXT           " ",           IDC_BITGAP,     210, 23,  20, 10,SS_SUNKEN | SS_NOTIFY
 //   LTEXT           "Char gap:",   IDS_CHARGAP,    355, 37,  37, 10,SS_NOTIFY
    LTEXT           "Char gap:",   IDS_CHARGAP,    175, 37,  37, 10,SS_NOTIFY
-   LTEXT           " ",           IDC_CHARGAP,    210, 36,  20, 10,SS_SUNKEN
+   LTEXT           " ",           IDC_CHARGAP,    210, 36,  20, 10,SS_SUNKEN | SS_NOTIFY
 
    //********************************************************
    //  colors-selection box

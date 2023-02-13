@@ -56,7 +56,7 @@ source:
 	zip $(BIN).src.zip *
 
 lint:
-	cmd /C "c:\lint9\lint-nt +v -width(160,4) $(LiFLAGS) -ic:\lint9 mingw.lnt -os(_lint.tmp) lintdefs.cpp $(CSRC)"
+	cmd /C "c:\lint9\lint-nt +v -width(160,4) $(LiFLAGS) -ic:\lint9 mingw.lnt -os(_lint.tmp) lintdefs.cpp *.rc $(CSRC)"
 
 depend:
 	makedepend $(CFLAGS) $(CSRC)
