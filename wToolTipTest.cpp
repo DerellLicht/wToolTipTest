@@ -1,14 +1,15 @@
 //**********************************************************************
-//  Copyright (c) 2018  Daniel D Miller
+//  Copyright (c) 2018-2023  Daniel D Miller
 //  
 //  Written by:   Daniel D. Miller
 //**********************************************************************
 //  version    changes
 //  =======    ======================================
 //    1.00     original, derived from wFontList
+//    1.02     remove application-specific data from tooltips module
 //****************************************************************************
 
-static char const * const Version = "wToolTipDemo, Version 1.01" ;
+static char const * const Version = "wToolTipDemo, Version 1.02" ;
 
 #define WINVER 0x0501
 #define _WIN32_WINNT 0x0501
@@ -18,14 +19,12 @@ static char const * const Version = "wToolTipDemo, Version 1.01" ;
 #include <math.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <tchar.h>
 #include <commctrl.h>
 
 #include "resource.h"
 #include "common.h"
-
-//  tooltips.cpp
-extern HWND create_tooltips(HWND hwnd, uint max_width, uint popup_msec, uint stayup_msec);
-extern void add_program_tooltips(HWND hwnd, HWND hwndToolTip);
+#include "tooltips.h"
 
 //lint -esym(715, hwnd, private_data, message, wParam, lParam)
 //***********************************************************************
@@ -67,6 +66,36 @@ static lrender_init_t test_init = {
    font_name, 3, 1, 2, SQUARE_PIXELS, RGB(31, 31, 31), RGB(63, 181, 255), RGB(23, 64, 103)
 } ;
 
+//****************************************************************************
+//  CommPort dialog tooltips
+//****************************************************************************
+static tooltip_data_t const program_tooltips[] = {
+{ IDS_FONTNAME,      _T("Filename of current font")},
+{ IDC_FONTNAME,      _T("Filename of current font")},
+{ IDB_LOAD_FONT,     _T("Load different font file" )},
+{ IDC_RB_ROUND,      _T("Change displayed font bits to filled circles" )},
+{ IDC_RB_SQUARE,     _T("Change displayed font bits to filled squares" )},
+{ IDS_PIXDIAM,       _T("Set diameter of displayed font bits" )},
+{ IDC_PIXDIAM,       _T("Set diameter of displayed font bits" )},
+{ IDS_BITGAP,        _T("Set gap between font bits (in pixels)" )},
+{ IDC_BITGAP,        _T("Set gap between font bits (in pixels)" )},
+{ IDS_CHARGAP,       _T("Set gap between characters (in pixels)" )},
+{ IDC_CHARGAP,       _T("Set gap between characters (in pixels)" )},
+{ IDB_ATTR_SET,      _T("Set color of SET (ON) font bits" )},
+{ IDC_SHOW_SET,      _T("Set color of SET (ON) font bits" )},
+{ IDB_ATTR_CLEAR,    _T("Set color of CLEARED (OFF) font bits" )},
+{ IDC_SHOW_CLEAR,    _T("Set color of CLEARED (OFF) font bits" )},
+{ IDB_ATTR_BGND,     _T("Set background color of display field" )},
+{ IDC_SHOW_BGND,     _T("Set background color of display field" )},
+{ IDOK,              _T("Close this program" )},
+
+//  This is how to enter multi-line tooltips:
+// { IDS_CP_SERNUM,     _T("The SEND CMD button will send COMMAND to the device with")
+//                      _T("this Serial Number.  If Serial Number is 0, COMMAND is sent ")
+//                      _T("to the broadcast address on the current port.") },
+
+{ 0, NULL }} ;
+
 /****************************************************************************
  * This hook procedure, which allows ClearIcon to position the color dialog
  * as desired, was extracted from Nancy Cluts, Chapter 06, cmndlg32.
@@ -86,19 +115,6 @@ static BOOL APIENTRY ChooseColorHookProc(HWND hDlg, UINT message, UINT wParam, L
       }   
       break;
         
-   //  Calling syslog() here, causes dialog to not close
-   // case WM_COMMAND:
-   //    if (LOWORD(wParam) == IDOK) {
-   //       syslog("IDOK\n") ;
-   //       return (TRUE);
-   //    }
-   //    else if (LOWORD(wParam) == IDCANCEL) {
-   //       syslog("IDCANCEL\n") ;
-   //       return TRUE;
-   //    } else {
-   //       syslog("0x%04X\n", LOWORD(wParam)) ;
-   //    }
-   //    break;
    }  //lint !e744 switch statement has no default
    return (FALSE);
 }
@@ -221,7 +237,7 @@ static bool do_init_dialog(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
 
    //  set up the tooltips
    HWND hToolTip = create_tooltips(hwnd, 150, 100, 10000) ;
-   add_program_tooltips(hwnd, hToolTip) ;
+   add_tooltips(hwnd, hToolTip, program_tooltips);
    return true ;
 }
 

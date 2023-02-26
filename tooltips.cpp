@@ -1,29 +1,21 @@
 //****************************************************************************
-//  Copyright (c) 2008-2014  Daniel D Miller
+//  Copyright (c) 2008-2023  Daniel D Miller
 //  tooltips.cpp - tooltip functions/data
 //
-//  Written by:  Dan Miller 
+//  Written by:  Daniel D Miller 
 //****************************************************************************
 //  Usage:
 //    HWND hToolTip = create_tooltips(hwnd, 150, 100, 10000) ;
-//    add_program_tooltips(hwnd, hToolTip) ;
+//    add_tooltips(hwnd, hToolTip, name_of_tooltip_array) ;
 //****************************************************************************
 
-#define WINVER 0x0501
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
 #include <windows.h>
-#include <tchar.h>
 #include <commctrl.h>
 
-#include "resource.h"
 #include "common.h"
-
-//  static tooltip-list struct
-typedef struct tooltip_data_s {
-   uint ControlID ;
-   TCHAR *msg ;
-} tooltip_data_t ;
+#include "tooltips.h"
 
 //****************************************************************************
 HWND create_tooltips(HWND hwnd, uint max_width, uint popup_msec, uint stayup_msec)
@@ -49,7 +41,7 @@ static void add_tooltip_target(HWND parent, HWND target, HWND hToolTip, TCHAR *m
    ti.cbSize = sizeof(TOOLINFO);
    ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
    ti.hwnd = parent;
-   ti.uId = (UINT) target;
+   ti.uId = (uint) target;
    ti.lpszText = msg ;
    LRESULT bresult = SendMessage(hToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
    if (bresult == 0) {
@@ -58,41 +50,13 @@ static void add_tooltip_target(HWND parent, HWND target, HWND hToolTip, TCHAR *m
 }  //lint !e550  ti
 
 //****************************************************************************
-//  CommPort dialog tooltips
-//****************************************************************************
-static tooltip_data_t const program_tooltips[] = {
-{ IDS_FONTNAME,      _T("Filename of current font")},
-{ IDC_FONTNAME,      _T("Filename of current font")},
-{ IDB_LOAD_FONT,     _T("Load different font file" )},
-{ IDC_RB_ROUND,      _T("Change displayed font bits to filled circles" )},
-{ IDC_RB_SQUARE,     _T("Change displayed font bits to filled squares" )},
-{ IDS_PIXDIAM,       _T("Set diameter of displayed font bits" )},
-{ IDC_PIXDIAM,       _T("Set diameter of displayed font bits" )},
-{ IDS_BITGAP,        _T("Set gap between font bits (in pixels)" )},
-{ IDC_BITGAP,        _T("Set gap between font bits (in pixels)" )},
-{ IDS_CHARGAP,       _T("Set gap between characters (in pixels)" )},
-{ IDC_CHARGAP,       _T("Set gap between characters (in pixels)" )},
-{ IDB_ATTR_SET,      _T("Set color of SET (ON) font bits" )},
-{ IDC_SHOW_SET,      _T("Set color of SET (ON) font bits" )},
-{ IDB_ATTR_CLEAR,    _T("Set color of CLEARED (OFF) font bits" )},
-{ IDC_SHOW_CLEAR,    _T("Set color of CLEARED (OFF) font bits" )},
-{ IDB_ATTR_BGND,     _T("Set background color of display field" )},
-{ IDC_SHOW_BGND,     _T("Set background color of display field" )},
-{ IDOK,              _T("Close this program" )},
-
-//  This is how to enter multi-line tooltips:
-// { IDS_CP_SERNUM,     _T("The SEND CMD button will send COMMAND to the device with")
-//                      _T("this Serial Number.  If Serial Number is 0, COMMAND is sent ")
-//                      _T("to the broadcast address on the current port.") },
-
-{ 0, NULL }} ;
-
-void add_program_tooltips(HWND hwnd, HWND hwndToolTip)
+void add_tooltips(HWND hwnd, HWND hwndToolTip, tooltip_data_t const * const tooltip_array)
 {
    unsigned idx ;
-   for (idx=0; program_tooltips[idx].ControlID != 0; idx++) {
-      add_tooltip_target(hwnd, GetDlgItem(hwnd, program_tooltips[idx].ControlID),
-         hwndToolTip, program_tooltips[idx].msg) ;
+   
+   for (idx=0; tooltip_array[idx].ControlID != 0; idx++) {
+      add_tooltip_target(hwnd, GetDlgItem(hwnd, tooltip_array[idx].ControlID),
+         hwndToolTip, tooltip_array[idx].msg) ;
    }
 }
 
