@@ -41,7 +41,7 @@ static void add_tooltip_target(HWND parent, HWND target, HWND hToolTip, TCHAR *m
    ti.cbSize = sizeof(TOOLINFO);
    ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
    ti.hwnd = parent;
-   ti.uId = (uint) target;
+   ti.uId = (unsigned) target;
    ti.lpszText = msg ;
    LRESULT bresult = SendMessage(hToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
    if (bresult == 0) {
