@@ -1,12 +1,17 @@
 Demo program for tooltips techniques
 Copyright (c) 2018  Daniel D Miller
 
-This is free software.  It is distributed under the terms of the
-Code Project Open License (CPOL) V1.02 :
-http://www.codeproject.com/info/cpol10.aspx
+//**********************************************************************  
+This project is licenced under Creative Commons CC0 1.0 Universal;  
+https://creativecommons.org/publicdomain/zero/1.0/
 
-//  Accessing this package from my git repository:
-git clone https://github.com/DerellLicht/wToolTiptest.git
+The person who associated a work with this deed has dedicated the work to the
+public domain by waiving all of his or her rights to the work worldwide under
+copyright law, including all related and neighboring rights, to the extent
+allowed by law.
+
+You can copy, modify, distribute and perform the work, even for commercial
+purposes, all without asking permission. 
 
 ###############################################################
 Building the project
