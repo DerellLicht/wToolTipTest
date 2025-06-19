@@ -5,7 +5,7 @@ USE_WINMSGS = YES
 
 #BASE_PATH=c:/mingw.tdm461/bin/
 #BASE_PATH=c:/mingw.v4.8.1/bin/
-BASE_PATH=c:/mingw/bin/
+BASE_PATH=d:/tdm32/bin/
 
 ifeq ($(USE_DEBUG),YES)
 CFLAGS=-Wall -O -ggdb -mwindows 
@@ -14,11 +14,9 @@ else
 CFLAGS=-Wall -O2 -mwindows 
 LFLAGS=-s
 endif
-CFLAGS += -Wno-write-strings
 CFLAGS += -Weffc++
-LiFLAGS += -DWINVER=0x0500
-LiFLAGS += -D_WIN32_IE=0x0501
-#LiFLAGS += _WIN32_WINNT=0x0501
+CFLAGS += -Wno-write-strings
+CFLAGS += -Wno-stringop-truncation
 ifeq ($(USE_STATIC),YES)
 LIBS=-lgdi32 -lcomctl32 -static
 else

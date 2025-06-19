@@ -29,7 +29,7 @@ const TCHAR  TCR   =  13 ;
 const TCHAR  TLF   =  10 ;
 const TCHAR  TTAB  =   9 ;
 
-static char exec_fname[PATH_MAX+1] = "" ;
+static char exec_fname[MAX_PATH_LEN+1] = "" ;
 
 //****************************************************************************
 //lint -esym(714, control_key_pressed)
@@ -203,7 +203,7 @@ bool get_file_datetime(char *file_name, SYSTEMTIME *sdt, file_time_select_t time
 DWORD load_exec_filename(void)
 {
    //  get fully-qualified name of executable program
-   DWORD result = GetModuleFileNameA(NULL, exec_fname, PATH_MAX) ;
+   DWORD result = GetModuleFileNameA(NULL, exec_fname, MAX_PATH_LEN) ;
    if (result == 0) {
       exec_fname[0] = 0 ;
       syslog("GetModuleFileName: %s\n", get_system_message()) ;
@@ -227,7 +227,7 @@ LRESULT derive_file_path(char *drvbfr, char *filename)
       syslog("cannot find name of executable\n") ;
       return ERROR_FILE_NOT_FOUND ;
    }
-   strncpy(drvbfr, exec_fname, PATH_MAX) ;
+   strncpy(drvbfr, exec_fname, MAX_PATH_LEN) ;
    //  this should never fail; failure would imply
    //  an executable with no .exe extension!
    char *sptr = strrchr(drvbfr, '\\') ;
@@ -252,7 +252,7 @@ LRESULT derive_filename_from_exec(char *drvbfr, char *new_ext)
       syslog("cannot find name of executable\n") ;
       return ERROR_FILE_NOT_FOUND ;
    }
-   strncpy(drvbfr, exec_fname, PATH_MAX) ;
+   strncpy(drvbfr, exec_fname, MAX_PATH_LEN) ;
    //  this should never fail; failure would imply
    //  an executable with no .exe extension!
    char *sptr = strrchr(drvbfr, '.') ;
@@ -281,7 +281,7 @@ LRESULT get_base_filename(char *drvbfr)
       syslog("cannot find name of executable\n") ;
       return ERROR_FILE_NOT_FOUND ;
    }
-   strncpy(drvbfr, exec_fname, PATH_MAX) ;
+   strncpy(drvbfr, exec_fname, MAX_PATH_LEN) ;
    //  this should never fail; failure would imply
    //  an executable with no .exe extension!
    char *sptr = strrchr(drvbfr, '.') ;
@@ -305,7 +305,7 @@ LRESULT get_base_path(char *drvbfr)
       syslog("cannot find name of executable\n") ;
       return ERROR_FILE_NOT_FOUND ;
    }
-   strncpy(drvbfr, exec_fname, PATH_MAX) ;
+   strncpy(drvbfr, exec_fname, MAX_PATH_LEN) ;
    //  this should never fail; failure would imply
    //  an executable with no .exe extension!
    char *sptr = strrchr(drvbfr, '\\') ;
@@ -325,7 +325,7 @@ LRESULT get_base_path(char *drvbfr)
 LRESULT get_base_path_wide(TCHAR *drvbfr)
 {
    //  get fully-qualified name of executable program
-   DWORD result = GetModuleFileName(NULL, drvbfr, PATH_MAX) ;
+   DWORD result = GetModuleFileName(NULL, drvbfr, MAX_PATH_LEN) ;
    if (result == 0) {
       *drvbfr = 0 ;
       syslog("GetModuleFileName: %s\n", get_system_message()) ;

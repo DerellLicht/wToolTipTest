@@ -23,10 +23,6 @@ typedef unsigned long long    u64 ;
 #define  LF       10
 #define  SPC      32
 
-#ifndef PATH_MAX
-#define PATH_MAX  260
-#endif
-
 //  define bounds of printable ASCII characters
 #define  FIRST_PCHAR  32
 #define  LAST_PCHAR   126
@@ -37,6 +33,7 @@ extern const TCHAR  TTAB ;
 
 #define  LOOP_FOREVER   1
 
+#define  MAX_PATH_LEN   1024
 #define  MAX_UNICODE_LEN   1024
 
 #define  MAX_TOOLTIP_LEN   1024
