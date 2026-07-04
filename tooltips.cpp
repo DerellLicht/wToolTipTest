@@ -9,8 +9,8 @@
 //    add_tooltips(hwnd, hToolTip, name_of_tooltip_array) ;
 //****************************************************************************
 
-#define _WIN32_WINNT 0x0501
-#define _WIN32_IE 0x0501
+// #define _WIN32_WINNT 0x0501
+// #define _WIN32_IE 0x0501
 #include <windows.h>
 #include <commctrl.h>
 

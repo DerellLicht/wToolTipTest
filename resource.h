@@ -16,7 +16,7 @@
 //    
 //***********************************************************************
 
-#define  IDC_STATIC              -1
+#define  IDC_STATIC           (-1)
 
 #define  LCDTICO              300
 #define  SFICON               301

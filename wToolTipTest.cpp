@@ -11,9 +11,9 @@
 
 static char const * const Version = "wToolTipDemo, Version 1.02" ;
 
-#define WINVER 0x0501
-#define _WIN32_WINNT 0x0501
-#define _WIN32_IE 0x0501
+// #define WINVER 0x0501
+// #define _WIN32_WINNT 0x0501
+// #define _WIN32_IE 0x0501
 #include <windows.h>
 #include <stdio.h>
 #include <math.h>

@@ -142,17 +142,11 @@ char *get_system_message(void);
 char *get_system_message(DWORD errcode);
 int syslog(const char *fmt, ...);
 int syslogW(const TCHAR *fmt, ...);
-char *show_error(int error_code);
 char *next_field(char *q);
 void strip_newlines(char *rstr);
 char *find_newlines(char *hd);
 char *strip_leading_spaces(char *str);
 void strip_trailing_spaces(char *rstr);
-u8 get_hex8(char *ptr);
-u16 get_hex16(char *ptr);
-u32 get_hex32(char *ptr);
-uint uabs(uint uvalue1, uint uvalue2);
-double dabs(double dvalue1, double dvalue2);
 int hex_dump(u8 *bfr, int bytes, unsigned addr);
 int hex_dump(u8 *bfr, int bytes);
 DWORD load_exec_filename(void);
@@ -161,25 +155,9 @@ LRESULT derive_filename_from_exec(char *drvbfr, char *new_ext);
 LRESULT get_base_filename(char *drvbfr);
 LRESULT get_base_path(char *drvbfr);
 LRESULT get_base_path_wide(TCHAR *drvbfr);
-bool IsCharNum(char inchr);
 char *get_dtimes_str(char *dest);
 bool control_key_pressed(void);
 bool file_exists(char *fefile);
 bool dir_exists(char *fefile);
 bool drive_exists(char *fefile);
-uint swap_rgb(uint invalue);
-
-typedef enum file_time_select_e {
-FILE_DATETIME_CREATE=0,
-FILE_DATETIME_LASTACCESS,
-FILE_DATETIME_LASTWRITE
-} file_time_select_t ;
-bool get_file_datetime(char *file_name, SYSTEMTIME *sdt, file_time_select_t time_select);
-
-//  window.mgr.cpp
-#ifdef USE_BUSY_CURSOR
-void start_busy_cursor(HWND hwnd) ;
-void stop_busy_cursor(HWND hwnd) ;
-void update_busy_cursor(void);
-#endif
 

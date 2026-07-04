@@ -1,0 +1,53 @@
+[
+ {
+  "directory": "D:\\SourceCode\\Git\\ToolTipTest",
+  "arguments": [
+   "D:/llvm/bin/i686-w64-mingw32-clang++.exe",
+   "-Wall",
+   "-O2",
+   "-c",
+   "-Weffc++",
+   "-Wno-write-strings",
+   "-Wno-stringop-truncation",
+   "-DUSE_WINMSGS",
+   "wToolTipTest.cpp",
+   "-o",
+   "wToolTipTest.o"
+  ],
+  "file": "wToolTipTest.cpp"
+ },
+ {
+  "directory": "D:\\SourceCode\\Git\\ToolTipTest",
+  "arguments": [
+   "D:/llvm/bin/i686-w64-mingw32-clang++.exe",
+   "-Wall",
+   "-O2",
+   "-c",
+   "-Weffc++",
+   "-Wno-write-strings",
+   "-Wno-stringop-truncation",
+   "-DUSE_WINMSGS",
+   "tooltips.cpp",
+   "-o",
+   "tooltips.o"
+  ],
+  "file": "tooltips.cpp"
+ },
+ {
+  "directory": "D:\\SourceCode\\Git\\ToolTipTest",
+  "arguments": [
+   "D:/llvm/bin/i686-w64-mingw32-clang++.exe",
+   "-Wall",
+   "-O2",
+   "-c",
+   "-Weffc++",
+   "-Wno-write-strings",
+   "-Wno-stringop-truncation",
+   "-DUSE_WINMSGS",
+   "common_funcs.cpp",
+   "-o",
+   "common_funcs.o"
+  ],
+  "file": "common_funcs.cpp"
+ }
+]

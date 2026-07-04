@@ -1,4 +1,3 @@
-SHELL=cmd.exe
 USE_DEBUG = NO
 USE_STATIC = NO
 USE_WINMSGS = YES
@@ -11,8 +10,8 @@ ifeq ($(USE_DEBUG),YES)
 CFLAGS=-Wall -O -ggdb -mwindows 
 LFLAGS=
 else
-CFLAGS=-Wall -O2 -mwindows 
-LFLAGS=-s
+CFLAGS=-Wall -O2 -c
+LFLAGS=-s -mwindows
 endif
 CFLAGS += -Weffc++
 CFLAGS += -Wno-write-strings
@@ -35,7 +34,7 @@ BIN=wToolTipTest
 
 #************************************************************
 %.o: %.cpp
-	$(BASE_PATH)g++ $(CFLAGS) -c $< -o $@
+	$(BASE_PATH)g++ $(CFLAGS) $< -o $@
 
 all: $(BIN).exe
 
@@ -49,9 +48,8 @@ dist:
 wc:
 	wc -l *.cpp *.rc
 
-source:
-	rm -f $(BIN).src.zip
-	zip $(BIN).src.zip *
+check:
+	cmd /C "d:\llvm\bin\clang-tidy.exe $(CSRC)"
 
 lint:
 	cmd /C "c:\lint9\lint-nt +v -width(160,4) $(LiFLAGS) -ic:\lint9 mingw.lnt -os(_lint.tmp) lintdefs.cpp *.rc $(CSRC)"
@@ -61,13 +59,13 @@ depend:
 
 #************************************************************
 $(BIN).exe: $(OBJS)
-	$(BASE_PATH)g++ $(CFLAGS) $(LFLAGS) $(OBJS) -o $@ $(LIBS)
+	$(BASE_PATH)g++ $(LFLAGS) $(OBJS) -o $@ $(LIBS)
 
 rc.o: $(BIN).rc 
 	windres $< -O COFF -o $@
 
 # DO NOT DELETE
 
-wToolTipTest.o: resource.h common.h
-tooltips.o: resource.h common.h
+wToolTipTest.o: resource.h common.h tooltips.h
+tooltips.o: common.h tooltips.h
 common_funcs.o: common.h
