@@ -8,11 +8,17 @@
 //  Collected and Organized by:  Dan Miller
 //****************************************************************************
 
-typedef unsigned char         u8 ;
-typedef unsigned short        u16 ;
-typedef unsigned int          uint ;
-typedef unsigned long         u32 ;
-typedef unsigned long long    u64 ;
+// typedef unsigned char         u8 ;
+// typedef unsigned short        u16 ;
+// typedef unsigned int          uint ;
+// typedef unsigned long         u32 ;
+// typedef unsigned long long    u64 ;
+
+using u8 = unsigned char ;
+using u16 = unsigned short ;
+using uint = unsigned int ;
+using u32 = unsigned long ;
+using u64 = unsigned long long ;
 
 #define  STX      2
 #define  ETX      3
@@ -31,7 +37,7 @@ extern const TCHAR  TCR  ;
 extern const TCHAR  TLF  ;
 extern const TCHAR  TTAB ;
 
-#define  LOOP_FOREVER   1
+#define  LOOP_FOREVER   true
 
 #define  MAX_PATH_LEN   1024
 #define  MAX_UNICODE_LEN   1024

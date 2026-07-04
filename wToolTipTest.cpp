@@ -11,14 +11,11 @@
 
 static char const * const Version = "wToolTipDemo, Version 1.02" ;
 
-// #define WINVER 0x0501
-// #define _WIN32_WINNT 0x0501
-// #define _WIN32_IE 0x0501
 #include <windows.h>
-#include <stdio.h>
-#include <math.h>
+#include <cstdio>
+#include <cmath>
 #include <sys/stat.h>
-#include <time.h>
+#include <ctime>
 #include <tchar.h>
 #include <commctrl.h>
 
@@ -30,16 +27,16 @@ static char const * const Version = "wToolTipDemo, Version 1.02" ;
 //***********************************************************************
 
 //lint -esym(844, hwndBitGapSpin, hwndCharGapSpin, hwndPixDiamSpin)
-static HWND hwndFontName    = NULL ;
-static HWND hwndPixDiam     = NULL ;
-static HWND hwndBitGap      = NULL ;
-static HWND hwndCharGap     = NULL ;
-static HWND hwndPixDiamSpin = NULL ;
-static HWND hwndBitGapSpin  = NULL ;
-static HWND hwndCharGapSpin = NULL ;
-static HWND hwndSetAttr     = NULL ;
-static HWND hwndClearAttr   = NULL ;
-static HWND hwndBgndAttr    = NULL ;
+static HWND hwndFontName    = nullptr ;
+static HWND hwndPixDiam     = nullptr ;
+static HWND hwndBitGap      = nullptr ;
+static HWND hwndCharGap     = nullptr ;
+static HWND hwndPixDiamSpin = nullptr ;
+static HWND hwndBitGapSpin  = nullptr ;
+static HWND hwndCharGapSpin = nullptr ;
+static HWND hwndSetAttr     = nullptr ;
+static HWND hwndClearAttr   = nullptr ;
+static HWND hwndBgndAttr    = nullptr ;
 
 static char font_name[1024] = "script2.f19" ;
 
@@ -51,7 +48,7 @@ static uint const MAX_CHAR_GAP = 6 ;
 static uint const MAX_DIAMETER = 5 ;
 static uint const MAX_BIT_GAP = 3 ;
 
-typedef struct lrender_init_s {
+struct lrender_init_s {
    char   *font_name ;        //  Name of font file to use for display
    uint   diameter ;          //  diameter of pixels in font
    uint   bit_gap ;           //  gap between pixels in character
@@ -60,7 +57,9 @@ typedef struct lrender_init_s {
    COLORREF bgnd ;            //  background color
    COLORREF set_bit ;         //  color of set bits
    COLORREF clear_bit ;       //  color of cleared bits
-} lrender_init_t;
+} ;
+// typedef lrender_init_s lrender_init_t ;
+using lrender_init_t = lrender_init_s ;
 
 static lrender_init_t test_init = {
    font_name, 3, 1, 2, SQUARE_PIXELS, RGB(31, 31, 31), RGB(63, 181, 255), RGB(23, 64, 103)
@@ -94,7 +93,7 @@ static tooltip_data_t const program_tooltips[] = {
 //                      _T("this Serial Number.  If Serial Number is 0, COMMAND is sent ")
 //                      _T("to the broadcast address on the current port.") },
 
-{ 0, NULL }} ;
+{ 0, nullptr }} ;
 
 /****************************************************************************
  * This hook procedure, which allows ClearIcon to position the color dialog
@@ -114,8 +113,11 @@ static BOOL APIENTRY ChooseColorHookProc(HWND hDlg, UINT message, UINT wParam, L
       SetWindowPos(hDlg, HWND_TOP, 400, 300, 0, 0, UFLAGS);
       }   
       break;
+      
+   default:
+      break ;
         
-   }  //lint !e744 switch statement has no default
+   }  
    return (FALSE);
 }
 #endif
@@ -133,7 +135,7 @@ static COLORREF select_color(HWND hwnd, COLORREF old_attr)
 #ifdef  USE_CHOOSECOLOR_HOOK
    cc.Flags          = CC_RGBINIT | CC_FULLOPEN | CC_ENABLEHOOK;
    cc.lpfnHook = (LPCCHOOKPROC) ChooseColorHookProc;
-   // cc.lpTemplateName = (LPTSTR) NULL;  //  not needed, struct was 0'd out
+   // cc.lpTemplateName = (LPTSTR) nullptr;  //  not needed, struct was 0'd out
 #else
    cc.Flags          = CC_RGBINIT | CC_FULLOPEN ;
 #endif
@@ -170,8 +172,8 @@ static bool do_init_dialog(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
    SetWindowTextA(hwnd, msgstr) ;
 
    //  Add program icons to title bar
-   SetClassLongA(hwnd, GCL_HICON,   (LONG) LoadIcon(GetModuleHandle(NULL), (LPCSTR) LCDTICO));
-   SetClassLongA(hwnd, GCL_HICONSM, (LONG) LoadIcon(GetModuleHandle(NULL), (LPCSTR) LCDTICO));
+   SetClassLongA(hwnd, GCL_HICON,   (LONG) LoadIcon(GetModuleHandle(nullptr), (LPCSTR) LCDTICO));
+   SetClassLongA(hwnd, GCL_HICONSM, (LONG) LoadIcon(GetModuleHandle(nullptr), (LPCSTR) LCDTICO));
 
    //*****************************************
    //  initialize controls
@@ -192,8 +194,8 @@ static bool do_init_dialog(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
       0, 0, 0, 0,          // size and position
       hwnd,                // parent handle
       IDC_PIXDIAMSPIN,     // updown ID
-      GetModuleHandle(NULL),             // instance handle
-      hwndPixDiam,         // associated field, or NULL
+      GetModuleHandle(nullptr),             // instance handle
+      hwndPixDiam,         // associated field, or nullptr
       MAX_DIAMETER,        // max value
       1,                   // min value
       test_init.diameter); // initial value
@@ -208,8 +210,8 @@ static bool do_init_dialog(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
       0, 0, 0, 0,          // size and position
       hwnd,                // parent handle
       IDC_BITGAPSPIN,      // updown ID
-      GetModuleHandle(NULL),             // instance handle
-      hwndBitGap,          // associated field, or NULL
+      GetModuleHandle(nullptr),             // instance handle
+      hwndBitGap,          // associated field, or nullptr
       MAX_BIT_GAP,         // max value
       0,                   // min value
       test_init.bit_gap);  // initial value
@@ -224,8 +226,8 @@ static bool do_init_dialog(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
       0, 0, 0, 0,          // size and position
       hwnd,                // parent handle
       IDC_CHARGAPSPIN,     // updown ID
-      GetModuleHandle(NULL),             // instance handle
-      hwndCharGap,         // associated field, or NULL
+      GetModuleHandle(nullptr),             // instance handle
+      hwndCharGap,         // associated field, or nullptr
       MAX_CHAR_GAP,        // max value
       0,                   // min value
       test_init.char_gap); // initial value
@@ -270,7 +272,7 @@ static bool do_vscroll(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, LP
 static bool do_command(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, LPVOID private_data)
 {
    // TCHAR msgstr[81] ;
-   int result ;
+   uint result = 0 ;
 
    DWORD cmd = HIWORD (wParam) ;
    DWORD target = LOWORD(wParam) ;
@@ -342,15 +344,15 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 #endif
    switch (message) {
    case WM_INITDIALOG:
-      do_init_dialog(hwnd, message, wParam, lParam, NULL);
+      do_init_dialog(hwnd, message, wParam, lParam, nullptr);
       break;
 
    case WM_COMMAND:
-      do_command(hwnd, message, wParam, lParam, NULL);
+      do_command(hwnd, message, wParam, lParam, nullptr);
       break;
 
    case WM_VSCROLL:
-      return do_vscroll(hwnd, message, wParam, lParam, NULL);
+      return do_vscroll(hwnd, message, wParam, lParam, nullptr);
 
    case WM_CLOSE:
       DestroyWindow(hwnd);
@@ -373,14 +375,14 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine
    {
    load_exec_filename() ;     //  get our executable name
 
-   HWND hwnd = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_SF_DIALOG), NULL, (DLGPROC) WndProc) ;
-   if (hwnd == NULL) {
+   HWND hwnd = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_SF_DIALOG), nullptr, (DLGPROC) WndProc) ;
+   if (hwnd == nullptr) {
       syslog("CreateDialog: %s\n", get_system_message()) ;
       return 0;
    }
 
    MSG Msg;
-   while(GetMessage(&Msg, NULL,0,0)) {
+   while(GetMessage(&Msg, nullptr,0,0)) {
       if(!IsDialogMessage(hwnd, &Msg)) {
           TranslateMessage(&Msg);
           DispatchMessage(&Msg);

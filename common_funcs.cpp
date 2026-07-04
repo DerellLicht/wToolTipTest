@@ -8,11 +8,11 @@
 //****************************************************************************
 
 #include <windows.h>
+#include <cstdio>   //  vsprintf
 #include <tchar.h>
-#include <time.h>
-#include <stdio.h>   //  vsprintf
-#include <math.h>    //  fabs()
-#include <limits.h>
+#include <ctime>
+#include <cmath>    //  fabs()
+#include <climits>
 #ifdef _lint
 #include <stdlib.h>
 #endif
@@ -89,7 +89,7 @@ bool dir_exists(char *fefile)
 DWORD load_exec_filename(void)
 {
    //  get fully-qualified name of executable program
-   DWORD result = GetModuleFileNameA(NULL, exec_fname, MAX_PATH_LEN) ;
+   DWORD result = GetModuleFileNameA(nullptr, exec_fname, MAX_PATH_LEN) ;
    if (result == 0) {
       exec_fname[0] = 0 ;
       syslog("GetModuleFileName: %s\n", get_system_message()) ;
@@ -117,12 +117,12 @@ LRESULT derive_file_path(char *drvbfr, char *filename)
    //  this should never fail; failure would imply
    //  an executable with no .exe extension!
    char *sptr = strrchr(drvbfr, '\\') ;
-   if (sptr == 0) {
+   if (sptr == nullptr) {
       syslog("%s: no valid separator\n", drvbfr) ;
       return ERROR_BAD_FORMAT;
    }
    sptr++ ; //  point past the backslash
-   strcpy(sptr, filename) ;
+   strcpy(sptr, filename) ;   //  NOLINT
    return 0;
 }
 
@@ -142,7 +142,7 @@ LRESULT derive_filename_from_exec(char *drvbfr, char *new_ext)
    //  this should never fail; failure would imply
    //  an executable with no .exe extension!
    char *sptr = strrchr(drvbfr, '.') ;
-   if (sptr == 0) {
+   if (sptr == nullptr) {
       syslog("%s: no valid extension\n", drvbfr) ;
       return ERROR_BAD_FORMAT;
    }
@@ -150,7 +150,7 @@ LRESULT derive_filename_from_exec(char *drvbfr, char *new_ext)
    if (*new_ext != '.')
       sptr++ ;
 
-   strcpy(sptr, new_ext) ;
+   strcpy(sptr, new_ext) ; //  NOLINT
    // syslog("derived [%s]\n", drvbfr) ;
    return 0;
 }
@@ -171,7 +171,7 @@ LRESULT get_base_filename(char *drvbfr)
    //  this should never fail; failure would imply
    //  an executable with no .exe extension!
    char *sptr = strrchr(drvbfr, '.') ;
-   if (sptr == 0) {
+   if (sptr == nullptr) {
       syslog("%s: no valid extension\n", drvbfr) ;
       return ERROR_BAD_FORMAT;
    }
@@ -195,7 +195,7 @@ LRESULT get_base_path(char *drvbfr)
    //  this should never fail; failure would imply
    //  an executable with no .exe extension!
    char *sptr = strrchr(drvbfr, '\\') ;
-   if (sptr == 0) {
+   if (sptr == nullptr) {
       syslog("%s: no valid appname\n", drvbfr) ;
       return ERROR_BAD_FORMAT;
    }
@@ -211,13 +211,13 @@ LRESULT get_base_path(char *drvbfr)
 LRESULT get_base_path_wide(TCHAR *drvbfr)
 {
    //  get fully-qualified name of executable program
-   DWORD result = GetModuleFileName(NULL, drvbfr, MAX_PATH_LEN) ;
+   DWORD result = GetModuleFileName(nullptr, drvbfr, MAX_PATH_LEN) ;
    if (result == 0) {
       *drvbfr = 0 ;
       syslog("GetModuleFileName: %s\n", get_system_message()) ;
    }
    TCHAR *sptr = _tcsrchr(drvbfr, '\\') ;
-   if (sptr == 0) {
+   if (sptr == nullptr) {
       syslog("%s: unexpected file format\n", drvbfr) ;
       return ERROR_BAD_FORMAT;
    }
@@ -244,16 +244,16 @@ char *get_system_message(DWORD errcode)
       // wsprintfA(msg, "Win32: unknown error code %d", result) ;
       // return msg;
    }
-   LPVOID lpMsgBuf;
+   LPVOID lpMsgBuf{};
    FormatMessageA(
       FORMAT_MESSAGE_ALLOCATE_BUFFER |
       FORMAT_MESSAGE_FROM_SYSTEM |
       FORMAT_MESSAGE_IGNORE_INSERTS,
-      NULL,
+      nullptr,
       errcode,
       MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
       (LPSTR) &lpMsgBuf,
-      0, 0);
+      0, nullptr);
    // Process any inserts in lpMsgBuf.
    // ...
    // Display the string.
@@ -290,7 +290,7 @@ char *get_system_message(void)
 int syslog(const char *fmt, ...)
 {
    char consoleBuffer[3000] ;
-   va_list al; //lint !e522
+   va_list al{}; //lint !e522
 
    va_start(al, fmt);   //lint !e1055 !e530
    vsprintf(consoleBuffer, fmt, al);   //lint !e64
@@ -314,7 +314,7 @@ int syslog(const char *fmt, ...)
 int syslogW(const TCHAR *fmt, ...)
 {
    TCHAR consoleBuffer[3000] ;
-   va_list al; //lint !e522
+   va_list al{}; //lint !e522
 
    va_start(al, fmt);   //lint !e1055 !e530 !e516
    _vstprintf(consoleBuffer, fmt, al);   //lint !e64
@@ -345,7 +345,7 @@ char *next_field(char *q)
 void strip_newlines(char *rstr)
 {
    int slen = (int) strlen(rstr) ;
-   while (1) {
+   while (LOOP_FOREVER) {
       if (slen == 0)
          break;
       if (*(rstr+slen-1) == '\n'  ||  *(rstr+slen-1) == '\r') {
@@ -363,10 +363,10 @@ void strip_newlines(char *rstr)
 //lint -esym(765, strip_leading_spaces)
 char *strip_leading_spaces(char *str)
 {
-   if (str == 0)
-      return 0;
+   if (str == nullptr)
+      return nullptr;
    char *tptr = str ;
-   while (1) {
+   while (LOOP_FOREVER) {
       if (*tptr == 0)
          return tptr;
       if (*tptr != ' '  &&  *tptr != HTAB)
@@ -411,20 +411,20 @@ void strip_trailing_spaces(char *rstr)
 //lint -esym(765, hex_dump)
 int hex_dump(u8 *bfr, int bytes, unsigned addr)
 {
-   int j, len ;
+   int j = 0 ;
    char tail[40] ;
    char pstr[81] ;
 
    tail[0] = 0 ;
    int idx = 0 ;
    int plen = 0 ;
-   while (1) {
+   while (LOOP_FOREVER) {
       int leftovers = bytes - idx ;
       if (leftovers > 16)
           leftovers = 16 ;
 
       plen = wsprintfA(pstr, "%05X:  ", addr+idx) ;  //lint !e737
-      len = 0 ;
+      int len = 0 ;
       for (j=0; j<leftovers; j++) {
          u8 chr = bfr[idx+j] ;
          plen += wsprintfA(&pstr[plen], "%02X ", chr) ;
@@ -443,9 +443,9 @@ int hex_dump(u8 *bfr, int bytes, unsigned addr)
       }
 
       // printf(" | %s |\n", tail) ;
-      strcat(pstr, " | ") ;
-      strcat(pstr, tail) ;
-      strcat(pstr, " |") ;
+      strncat(pstr, " | ", 4) ;
+      strcat(pstr, tail) ; // NOLINT
+      strncat(pstr, " |", 3) ;
       // printf("%s\n", pstr) ;
       syslog("%s\n", pstr) ;
 

@@ -20,10 +20,10 @@
 //****************************************************************************
 HWND create_tooltips(HWND hwnd, uint max_width, uint popup_msec, uint stayup_msec)
 {
-   HWND hToolTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, TTS_ALWAYSTIP,
+   HWND hToolTip = CreateWindowEx(0, TOOLTIPS_CLASS, nullptr, TTS_ALWAYSTIP,
          CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, //lint !e569
-         hwnd, NULL, GetModuleHandle(NULL), NULL);
-   if (hToolTip == NULL) {
+         hwnd, nullptr, GetModuleHandle(nullptr), nullptr);
+   if (hToolTip == nullptr) {
       syslog("ToolTip CreateWindowEx: %s\n", get_system_message()) ;
    } else {
       SendMessage(hToolTip, TTM_SETMAXTIPWIDTH, 0, max_width) ;
@@ -52,9 +52,7 @@ static void add_tooltip_target(HWND parent, HWND target, HWND hToolTip, TCHAR *m
 //****************************************************************************
 void add_tooltips(HWND hwnd, HWND hwndToolTip, tooltip_data_t const * const tooltip_array)
 {
-   unsigned idx ;
-   
-   for (idx=0; tooltip_array[idx].ControlID != 0; idx++) {
+   for (unsigned idx=0; tooltip_array[idx].ControlID != 0; idx++) {
       add_tooltip_target(hwnd, GetDlgItem(hwnd, tooltip_array[idx].ControlID),
          hwndToolTip, tooltip_array[idx].msg) ;
    }
