@@ -251,8 +251,9 @@ static bool do_vscroll(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, LP
 // [3496] scroll code=4, nPos=2
 // [3496] scroll code=8, nPos=2
 //    syslog("scroll code=%u, nPos=%u\n", LOWORD(wParam), HIWORD(wParam)) ;
-   if (LOWORD(wParam) != SB_ENDSCROLL)
+   if (LOWORD(wParam) != SB_ENDSCROLL) {
       return false;
+   }
    if (hwndPixDiamSpin == (HWND) lParam) {
       return true;
    } 
