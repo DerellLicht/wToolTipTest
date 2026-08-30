@@ -1,10 +1,13 @@
 USE_DEBUG = NO
-USE_STATIC = NO
+USE_64BIT = NO
+USE_UNICODE = NO
+USE_CLANG = NO
+
+# sadly, cygwin mingw does not support gdiplus...
+USE_CYGWIN = NO
 USE_WINMSGS = YES
 
-#BASE_PATH=c:/mingw.tdm461/bin/
-#BASE_PATH=c:/mingw.v4.8.1/bin/
-BASE_PATH=d:/tdm32/bin/
+include .\tool_select.mak
 
 ifeq ($(USE_DEBUG),YES)
 CFLAGS=-Wall -O -ggdb -mwindows 
@@ -40,7 +43,7 @@ DIST_ZIP := $(BASE)V$(VERSION).zip
 .PHONY: dist release update
 #************************************************************
 %.o: %.cpp
-	$(BASE_PATH)g++ $(CFLAGS) $< -o $@
+	$(TOOLS)\$(GNAME) $(CFLAGS) $< -o $@
 
 all: $(BINX)
 
@@ -52,7 +55,7 @@ dist:
 	zip $(DIST_ZIP) $(BINX) README.md LICENSE.txt CHANGELOG.md
 
 # Your new automated release workflow
-release:
+release: dist
 	cmd /C "@echo Preparing GitHub release for v$(VERSION)..."
 	sed -n '/## \['$(VERSION)'\]/,/## \[/p' CHANGELOG.md | sed '$$d' > temp_notes.md
 	gh release create v$(VERSION) ./$(DIST_ZIP) ./CHANGELOG.md --notes-file temp_notes.md
@@ -69,21 +72,24 @@ update: dist
 wc:
 	wc -l *.cpp *.rc
 
+clint:
+	cmd /C "python ..\ClaudeLint.py --exclude der_libs --strip-arg=-Wno-stringop-truncation "
+	
 check:
 	cmd /C "d:\llvm\bin\clang-tidy.exe $(CSRC)"
 
-lint:
-	cmd /C "c:\lint9\lint-nt +v -width(160,4) $(LiFLAGS) -ic:\lint9 mingw.lnt -os(_lint.tmp) lintdefs.cpp *.rc $(CSRC)"
+cppc:
+	cmd /C "cppcheck --project=compile_commands.json --check-level=exhaustive --enable=all --std=c++14 --suppressions-list=./.suppress.cppcheck"
 
 depend:
 	makedepend $(CFLAGS) $(CSRC)
 
 #************************************************************
-$(BINX).exe: $(OBJS)
+$(BINX): $(OBJS)
 	$(TOOLS)/$(GNAME) $(OBJS) $(LFLAGS) -o $(BINX) $(LIBS) 
 
 rc.o: $(BASE).rc 
-	$(TOOLS)\windres -O COFF $^ -o $@
+	$(TOOLS)\$(WRNAME) $< -O COFF -o $@
 
 # DO NOT DELETE
 

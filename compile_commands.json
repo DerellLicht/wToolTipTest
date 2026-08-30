@@ -2,7 +2,7 @@
  {
   "directory": "D:\\SourceCode\\Git\\ToolTipTest",
   "arguments": [
-   "D:/llvm/bin/i686-w64-mingw32-clang++.exe",
+   "d:/llvm/bin/i686-w64-mingw32-clang++",
    "-Wall",
    "-O2",
    "-c",
@@ -19,7 +19,7 @@
  {
   "directory": "D:\\SourceCode\\Git\\ToolTipTest",
   "arguments": [
-   "D:/llvm/bin/i686-w64-mingw32-clang++.exe",
+   "d:/llvm/bin/i686-w64-mingw32-clang++",
    "-Wall",
    "-O2",
    "-c",
@@ -36,7 +36,7 @@
  {
   "directory": "D:\\SourceCode\\Git\\ToolTipTest",
   "arguments": [
-   "D:/llvm/bin/i686-w64-mingw32-clang++.exe",
+   "d:/llvm/bin/i686-w64-mingw32-clang++",
    "-Wall",
    "-O2",
    "-c",

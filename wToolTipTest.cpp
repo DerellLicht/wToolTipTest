@@ -44,14 +44,14 @@ static uint const MAX_DIAMETER = 5 ;
 static uint const MAX_BIT_GAP = 3 ;
 
 struct lrender_init_s {
-   char   *font_name ;        //  Name of font file to use for display
-   uint   diameter ;          //  diameter of pixels in font
-   uint   bit_gap ;           //  gap between pixels in character
-   uint   char_gap ;          //  gap between characters
-   uint   pixel_type ;        //  square or round pixels
-   COLORREF bgnd ;            //  background color
-   COLORREF set_bit ;         //  color of set bits
-   COLORREF clear_bit ;       //  color of cleared bits
+   char   *font_name {};        //  Name of font file to use for display
+   uint   diameter {};          //  diameter of pixels in font
+   uint   bit_gap {};           //  gap between pixels in character
+   uint   char_gap {};          //  gap between characters
+   uint   pixel_type {};        //  square or round pixels
+   COLORREF bgnd {};            //  background color
+   COLORREF set_bit {};         //  color of set bits
+   COLORREF clear_bit {};       //  color of cleared bits
 } ;
 // typedef lrender_init_s lrender_init_t ;
 using lrender_init_t = lrender_init_s ;
@@ -285,26 +285,20 @@ static bool do_command(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, LP
 
       case IDB_ATTR_SET:
          result = select_color(hwnd, test_init.set_bit) ;
-         if (result >= 0) {
-            test_init.set_bit = (COLORREF) result ;
-            fill_color_field(hwndSetAttr,   test_init.set_bit) ;
-         }
+         test_init.set_bit = (COLORREF) result ;
+         fill_color_field(hwndSetAttr,   test_init.set_bit) ;
          return true;
 
       case IDB_ATTR_CLEAR:
          result = select_color(hwnd, test_init.clear_bit) ;
-         if (result >= 0) {
-            test_init.clear_bit = (COLORREF) result ;
-            fill_color_field(hwndClearAttr, test_init.clear_bit) ;
-         }
+         test_init.clear_bit = (COLORREF) result ;
+         fill_color_field(hwndClearAttr, test_init.clear_bit) ;
          return true;
 
       case IDB_ATTR_BGND:
          result = select_color(hwnd, test_init.bgnd) ;
-         if (result >= 0) {
-            test_init.bgnd = (COLORREF) result ;
-            fill_color_field(hwndBgndAttr,  test_init.bgnd) ;
-         }
+         test_init.bgnd = (COLORREF) result ;
+         fill_color_field(hwndBgndAttr,  test_init.bgnd) ;
          return true;
          
       case IDOK:

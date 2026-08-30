@@ -1,0 +1,12 @@
+# ClaudeLint suppression file
+# One entry per line: path/relative/to/project:line
+# '#' starts a comment (full-line or trailing).
+#
+# Example (uncomment and edit to suppress a real finding):
+# der_libs/common.h:101  # SomeStruct::some_field
+D:\SourceCode\Git\ToolTipTest\common.h:36  # unused global 'TCR'
+D:\SourceCode\Git\ToolTipTest\common.h:37  # unused global 'TLF'
+D:\SourceCode\Git\ToolTipTest\common.h:38  # unused global 'TTAB'
+D:\SourceCode\Git\ToolTipTest\common.h:76  # unused field 'winproc_table_s::win_code'
+D:\SourceCode\Git\ToolTipTest\common.h:77  # unused field 'winproc_table_s::winproc_func'
+

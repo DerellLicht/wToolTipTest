@@ -77,64 +77,6 @@ typedef struct winproc_table_s {
    bool (*winproc_func)(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam, LPVOID private_data) ;
 } winproc_table_t ;
 
-//*****************************************************************
-//  struct for building list of strings
-//*****************************************************************
-//lint -esym(756, string_list_p, string_list_t)
-//lint -esym(768, string_list_s::next, string_list_s::msg)
-//lint -esym(768, string_list_s::idx, string_list_s::marked)
-typedef struct string_list_s {
-   struct string_list_s *next ;
-   char *msg ;
-   uint idx ;     //  required for listview interfaces
-   bool marked ;  //  required for listview interfaces
-} string_list_t, *string_list_p ;
-
-//*****************************************************************
-//  my standard construct for translating between
-//  bytes, words, and dwords
-//*****************************************************************
-//lint -esym(754, ul2uc_u::us)
-//lint -esym(756, ul2uc_t)
-//lint -esym(768, ul2uc_u::ul, ul2uc_u::us, ul2uc_u::uc)
-typedef union ul2uc_u {
-   u32 ul ;
-   u16 us[2] ;
-   u8  uc[4] ;
-} ul2uc_t ;
-
-//  windows defs which are not present in MinGW headers
-//  Used for PSCB_PRECREATE message
-//lint -esym(751, LPDLGTEMPLATEEX)
-//lint -esym(754, DLGTEMPLATEEX_s::dlgVer, DLGTEMPLATEEX_s::helpID, DLGTEMPLATEEX_s::exStyle)
-//lint -esym(754, DLGTEMPLATEEX_s::cDlgItems, DLGTEMPLATEEX_s::x, DLGTEMPLATEEX_s::y)
-//lint -esym(754, DLGTEMPLATEEX_s::cx, DLGTEMPLATEEX_s::cy)
-//lint -esym(756, LPDLGTEMPLATEEX, DLGTEMPLATEEX)
-//lint -esym(768, DLGTEMPLATEEX_s::dlgVer, DLGTEMPLATEEX_s::helpID, DLGTEMPLATEEX_s::exStyle)
-//lint -esym(768, DLGTEMPLATEEX_s::cDlgItems, DLGTEMPLATEEX_s::x, DLGTEMPLATEEX_s::y)
-//lint -esym(768, DLGTEMPLATEEX_s::cx, DLGTEMPLATEEX_s::cy)
-//lint -esym(768, DLGTEMPLATEEX_s::signature, DLGTEMPLATEEX_s::style)
-typedef struct DLGTEMPLATEEX_s {
-        WORD dlgVer;
-        WORD signature;
-        DWORD helpID;
-        DWORD exStyle;
-        DWORD style;
-        WORD cDlgItems;
-        short x;
-        short y;
-        short cx;
-        short cy;
-        // etc..
-} DLGTEMPLATEEX, *LPDLGTEMPLATEEX; 
-
-// #define PSN_FIRST                (0U-200U)
-// #define  PSN_GETOBJECT               (-210)
-// #define  PSN_TRANSLATEACCELERATOR    (-212)
-// #define  PSN_QUERYINITIALFOCUS       (-213)
-
-/* #define  LVN_HOTTRACK                (-121) */
-
 //*************************************************************
 inline void delay_ms(uint msec)
 {

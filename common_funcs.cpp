@@ -411,7 +411,7 @@ void strip_trailing_spaces(char *rstr)
 //lint -esym(765, hex_dump)
 int hex_dump(u8 *bfr, int bytes, unsigned addr)
 {
-   int j = 0 ;
+   int j {};
    char tail[40] ;
    char pstr[81] ;
 

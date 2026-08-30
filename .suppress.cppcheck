@@ -1,0 +1,7 @@
+cstyleCast:common_funcs.cpp:260
+unreadVariable:common_funcs.cpp:420
+
+unusedFunction
+constParameterPointer
+variableScope
+missingIncludeSystem
