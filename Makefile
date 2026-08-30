@@ -30,20 +30,41 @@ endif
 
 OBJS = $(CSRC:.cpp=.o) rc.o
 
-BIN=wToolTipTest
+BASE :=wToolTipTest
+BINX :=$(BASE).exe
 
+# Automatically parse the latest version block
+VERSION := $(shell grep -oE '\[[0-9]+\.[0-9]+\]' CHANGELOG.md | head -n 1 | tr -d '[]')
+DIST_ZIP := $(BASE)V$(VERSION).zip
+
+.PHONY: dist release update
 #************************************************************
 %.o: %.cpp
 	$(BASE_PATH)g++ $(CFLAGS) $< -o $@
 
-all: $(BIN).exe
+all: $(BINX)
 
 clean:
-	rm -f $(BIN).exe $(OBJS) *.zip *.bak *~
+	rm -f $(BINX).exe $(OBJS) *.zip *.bak *~
 
 dist:
-	rm -f $(BIN).zip
-	zip -r $(BIN).zip $(BIN).exe *.f* fntcol\* readme.txt
+	rm -f *.zip
+	zip $(DIST_ZIP) $(BINX) README.md LICENSE.txt CHANGELOG.md
+
+# Your new automated release workflow
+release:
+	cmd /C "@echo Preparing GitHub release for v$(VERSION)..."
+	sed -n '/## \['$(VERSION)'\]/,/## \[/p' CHANGELOG.md | sed '$$d' > temp_notes.md
+	gh release create v$(VERSION) ./$(DIST_ZIP) ./CHANGELOG.md --notes-file temp_notes.md
+	rm temp_notes.md
+	cmd /C "@echo Release v$(VERSION) successfully uploaded to GitHub!"
+	
+# Your new update-in-place pipeline
+update: dist
+	cmd /C "@echo Updating assets for existing release v$(VERSION)..."
+	@# Uploads and overwrites the .zip file and CHANGELOG.md on GitHub
+	gh release upload v$(VERSION) ./$(DIST_ZIP) ./CHANGELOG.md --clobber
+	cmd /C "@echo Release v$(VERSION) assets successfully updated on GitHub!"
 
 wc:
 	wc -l *.cpp *.rc
@@ -58,11 +79,11 @@ depend:
 	makedepend $(CFLAGS) $(CSRC)
 
 #************************************************************
-$(BIN).exe: $(OBJS)
-	$(BASE_PATH)g++ $(LFLAGS) $(OBJS) -o $@ $(LIBS)
+$(BINX).exe: $(OBJS)
+	$(TOOLS)/$(GNAME) $(OBJS) $(LFLAGS) -o $(BINX) $(LIBS) 
 
-rc.o: $(BIN).rc 
-	windres $< -O COFF -o $@
+rc.o: $(BASE).rc 
+	$(TOOLS)\windres -O COFF $^ -o $@
 
 # DO NOT DELETE
 

@@ -3,11 +3,6 @@
 //  
 //  Written by:   Daniel D. Miller
 //**********************************************************************
-//  version    changes
-//  =======    ======================================
-//    1.00     original, derived from wFontList
-//    1.02     remove application-specific data from tooltips module
-//****************************************************************************
 
 static char const * const Version = "wToolTipDemo, Version 1.02" ;
 

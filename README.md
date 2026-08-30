@@ -13,9 +13,18 @@ allowed by law.
 You can copy, modify, distribute and perform the work, even for commercial
 purposes, all without asking permission. 
 
-###############################################################
-Building the project
+#### building the application
+This application is built using the MinGW toolchain; 
+I recommend the [TDM](http://tdm-gcc.tdragon.net/) distribution, 
+to avoid certain issues with library accessibility. 
+The makefile also requires certain Cygwin tools (rm, make, etc).
 
-> With MinGW (I used V4.4.1)
-In the main project directory, type "make"
+#### NOTE: this program requires my ```der_libs``` submodule
+If you clone the repository without the --recursive flag, 
+you can recover the submodule later, with this command:
 
+```git submodule update --init --recursive```
+
+<hr>
+
+See [Changelog](CHANGELOG.md) for the full revision history.

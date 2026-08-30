@@ -1,3 +1,4 @@
 *.o
 *.exe
+*.zip
 _lint.tmp
