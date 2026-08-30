@@ -48,7 +48,7 @@ DIST_ZIP := $(BASE)V$(VERSION).zip
 all: $(BINX)
 
 clean:
-	rm -f $(BINX).exe $(OBJS) *.zip *.bak *~
+	rm -f $(BINX) $(OBJS) *.zip *.bak *~
 
 dist:
 	rm -f *.zip
