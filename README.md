@@ -1,5 +1,5 @@
 Demo program for tooltips techniques  
-Copyright (c) 2018  Daniel D Miller
+Copyright (c) 2018-2023  Derell Licht
 
 #### building the application
 This application is built using the MinGW toolchain; 
